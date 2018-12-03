@@ -2,14 +2,12 @@ require 'faraday'
 require 'json'
 
 class Connection
-  BASE_URL = 'https://api.nasa.gov/planetary/apod?api_key='
+  BASE_URL = "https://api.nasa.gov/planetary/apod?api_key=#{ENV['NASA_API_KEY']}"
 
   def self.get_api_info
-    Faraday.new(url: BASE_URL) do |faraday|
-      faraday.response :logger
-      faraday.adapter Faraday.default_adapter
-      faraday.headers['Content-Type'] = 'application/json'
-      faraday.headers['NASA-Key'] = ENV['NASA_API_KEY']
+    nasa_api = "https://api.nasa.gov/planetary/apod?api_key=#{ENV['NASA_API_KEY']}"
+    request_to_nasa_api = Net::HTTP.get(URI(nasa_api))
+    JSON.parse request_to_nasa_api
     end
   end
 end

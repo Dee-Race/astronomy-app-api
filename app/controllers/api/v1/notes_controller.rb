@@ -28,12 +28,13 @@ module Api::V1
 
   private
 
+    # helper method
     def set_note
-      @note = Note.find(params[:id])
+      @note = Note.find_by(id: params[:id])
     end
 
     def note_params
-      params.require(:note).permit(:title, :date, :content)
+      params.require(:note).permit(:title, :date, :content, :submitted_by)
     end
 end
 end 

@@ -12,7 +12,7 @@ module Api::V1
 
   # GET /notes/1
   def show
-    render json: @note
+    render json: Note.find_by(id: params[:id])
   end
 
   # POST /notes
@@ -20,11 +20,25 @@ module Api::V1
     @note = Note.new(note_params)
 
     if @note.save
-      render json: @note, status: :created, location: @note
+      render json: @note
     else
-      render json: @note.errors, status: :unprocessable_entity
+      render json: { message: @note.errors }, status: 400 
     end
   end
+
+  def update 
+    if @note.update(note_params)
+      render json: @note
+    else 
+      render json: { message: @note.errors }, status: 400
+  end 
+
+  def destroy 
+    if @note.destroy
+      render status: 204
+    else 
+      render json: { message: "Unable to remove this note"}, status: 400
+  end 
 
   private
 

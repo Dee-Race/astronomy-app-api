@@ -50,7 +50,7 @@ module Api::V1
       end
 
       def note_params
-       params.require(:note).permit(:title, :date, :content, :submitted_by)
+       params.require(:note).permit(:title, :date, :content, :submitted_by, :likes)
       end
 
   end
